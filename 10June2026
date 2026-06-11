@@ -1,0 +1,208 @@
+# Day 9 Internship Documentation: Exploring Fundamental Model Explainability Techniques
+
+**Date:** 8 June 2026
+**Intern:** Aditya Sharma
+**Domain:** Artificial Intelligence & Machine Learning
+**Task:** Study and Implement Fundamental Model Explainability Techniques
+
+---
+
+# Objective
+
+The objective of this task was to explore and implement fundamental Explainable AI (XAI) techniques used to interpret machine learning models. The goal was to understand how different explainability methods help identify feature importance, model behavior, and prediction reasoning.
+
+---
+
+# Introduction
+
+As machine learning models become increasingly complex, understanding how they make decisions becomes more important. Explainable AI (XAI) provides techniques that help interpret model predictions and improve transparency, trust, and accountability.
+
+During this task, several explainability methods were studied and implemented using Python and Scikit-Learn.
+
+---
+
+# Techniques Explored
+
+## 1. Feature Importance
+
+Feature Importance measures the contribution of each feature toward model predictions.
+
+### Implementation
+
+```python
+importance = model.feature_importances_
+
+for i, imp in enumerate(importance):
+    print(f"Feature {i}: {imp:.4f}")
+```
+
+### Learning Outcome
+
+* Understanding feature contribution
+* Ranking important variables
+
+---
+
+## 2. Permutation Importance
+
+Measures performance degradation after randomly shuffling a feature.
+
+### Implementation
+
+```python
+result = permutation_importance(
+    model,
+    X,
+    y,
+    n_repeats=10,
+    random_state=42
+)
+```
+
+### Learning Outcome
+
+* Model-agnostic feature evaluation
+* Global model interpretation
+
+---
+
+## 3. SHAP (SHapley Additive Explanations)
+
+Provides both local and global explanations using Shapley values.
+
+### Implementation
+
+```python
+explainer = shap.TreeExplainer(model)
+
+shap_values = explainer.shap_values(X)
+
+shap.summary_plot(
+    shap_values,
+    X
+)
+```
+
+### Learning Outcome
+
+* Local explanations
+* Global explanations
+* Feature contribution visualization
+
+---
+
+## 4. LIME
+
+Generates explanations for individual predictions.
+
+### Implementation
+
+```python
+exp = explainer.explain_instance(
+    X[0],
+    model.predict_proba
+)
+```
+
+### Learning Outcome
+
+* Instance-level interpretation
+* Local decision understanding
+
+---
+
+## 5. Partial Dependence Plot (PDP)
+
+Shows how a feature affects model predictions.
+
+### Implementation
+
+```python
+PartialDependenceDisplay.from_estimator(
+    model,
+    X,
+    [0]
+)
+```
+
+### Learning Outcome
+
+* Feature impact visualization
+* Global behavior analysis
+
+---
+
+## 6. Individual Conditional Expectation (ICE)
+
+Displays individual prediction responses.
+
+### Implementation
+
+```python
+PartialDependenceDisplay.from_estimator(
+    model,
+    X,
+    [0],
+    kind="individual"
+)
+```
+
+### Learning Outcome
+
+* Individual prediction behavior
+* Feature interaction analysis
+
+---
+
+## 7. Surrogate Models
+
+Interpretable models trained to mimic black-box models.
+
+### Implementation
+
+```python
+surrogate = DecisionTreeClassifier(
+    max_depth=3
+)
+
+surrogate.fit(
+    X,
+    predictions
+)
+```
+
+### Learning Outcome
+
+* Black-box model interpretation
+* Simplified decision visualization
+
+---
+
+# Comparison of Techniques
+
+| Technique              | Local | Global |
+| ---------------------- | ----- | ------ |
+| Feature Importance     | ❌     | ✅      |
+| Permutation Importance | ❌     | ✅      |
+| SHAP                   | ✅     | ✅      |
+| LIME                   | ✅     | ❌      |
+| PDP                    | ❌     | ✅      |
+| ICE                    | ✅     | ❌      |
+| Surrogate Models       | ❌     | ✅      |
+
+---
+
+# Learning Outcomes
+
+* Explainable AI Fundamentals
+* Feature Importance Analysis
+* SHAP and LIME
+* Model Transparency
+* Black-box Interpretation
+* Global and Local Explanations
+
+---
+
+# Conclusion
+
+This task provided practical experience in implementing fundamental explainability techniques and understanding how machine learning models make decisions. These methods improve transparency and trustworthiness in AI systems.
