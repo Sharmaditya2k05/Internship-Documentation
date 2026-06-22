@@ -1,0 +1,360 @@
+# Day 15 Internship Documentation: Exploration and Implementation of Flask REST API for Iris Dataset
+
+**Date:** 14 June 2026
+**Intern:** Aditya Sharma
+**Domain:** Artificial Intelligence & Machine Learning
+**Task:** Explore and Implement a Flask REST API for the Iris Dataset
+
+---
+
+# Objective
+
+The objective of this task was to explore the fundamentals of Flask and understand how machine learning models can be deployed as RESTful APIs. The task included training a classification model using the Iris dataset, integrating it with Flask, creating API endpoints, handling JSON requests and responses, and testing the deployed API.
+
+---
+
+# Introduction
+
+Machine learning models are generally trained in Python environments such as Jupyter Notebook. However, to make these models accessible to web and mobile applications, they need to be deployed as APIs.
+
+Flask is a lightweight Python web framework widely used for deploying machine learning models. It enables applications to receive user input through HTTP requests, process the data using a trained model, and return predictions in JSON format.
+
+During this task, a Flask REST API was developed for the Iris Flower Classification model to understand the complete deployment workflow.
+
+---
+
+# Dataset Information
+
+## Dataset Used
+
+Iris Flower Dataset
+
+### Dataset Characteristics
+
+* Total Samples: 150
+* Features: 4
+* Classes: 3
+
+### Input Features
+
+* Sepal Length
+* Sepal Width
+* Petal Length
+* Petal Width
+
+### Output Classes
+
+* Setosa
+* Versicolor
+* Virginica
+
+---
+
+# Technologies Used
+
+* Python
+* Flask
+* Scikit-Learn
+* NumPy
+* Pickle
+* Postman
+* Jupyter Notebook
+
+---
+
+# Project Workflow
+
+```text
+User
+
+↓
+
+HTTP POST Request
+
+↓
+
+Flask API
+
+↓
+
+Receive JSON Input
+
+↓
+
+Load Trained Machine Learning Model
+
+↓
+
+Generate Prediction
+
+↓
+
+Return JSON Response
+
+↓
+
+Display Prediction
+```
+
+---
+
+# Project Structure
+
+```text
+Flask_Iris_API/
+
+│── app.py
+
+│── model.pkl
+
+│── requirements.txt
+
+└── README.md
+```
+
+---
+
+# Code Implementation
+
+## Import Required Libraries
+
+```python
+from flask import Flask, request, jsonify
+from sklearn.datasets import load_iris
+from sklearn.ensemble import RandomForestClassifier
+import numpy as np
+```
+
+---
+
+## Load Dataset and Train Model
+
+```python
+iris = load_iris()
+
+X = iris.data
+y = iris.target
+
+model = RandomForestClassifier(random_state=42)
+
+model.fit(X, y)
+```
+
+---
+
+## Create Flask Application
+
+```python
+app = Flask(__name__)
+
+class_names = [
+    "Setosa",
+    "Versicolor",
+    "Virginica"
+]
+```
+
+---
+
+## Home Route
+
+```python
+@app.route("/")
+def home():
+
+    return jsonify({
+
+        "message": "Iris Prediction API is Running"
+
+    })
+```
+
+---
+
+## Prediction Endpoint
+
+```python
+@app.route("/predict", methods=["POST"])
+
+def predict():
+
+    data = request.get_json()
+
+    features = np.array([[
+
+        data["sepal_length"],
+        data["sepal_width"],
+        data["petal_length"],
+        data["petal_width"]
+
+    ]])
+
+    prediction = model.predict(features)[0]
+
+    probability = model.predict_proba(features)[0]
+
+    return jsonify({
+
+        "input": data,
+
+        "output": {
+
+            "prediction": class_names[prediction],
+
+            "confidence": round(float(max(probability))*100,2)
+
+        }
+
+    })
+```
+
+---
+
+## Run Flask Server
+
+```python
+if __name__ == "__main__":
+
+    app.run(debug=True)
+```
+
+---
+
+# API Endpoints
+
+## Home Endpoint
+
+**URL**
+
+```text
+GET /
+```
+
+### Response
+
+```json
+{
+    "message": "Iris Prediction API is Running"
+}
+```
+
+---
+
+## Prediction Endpoint
+
+**URL**
+
+```text
+POST /predict
+```
+
+### Sample Request
+
+```json
+{
+    "sepal_length": 5.1,
+    "sepal_width": 3.5,
+    "petal_length": 1.4,
+    "petal_width": 0.2
+}
+```
+
+### Sample Response
+
+```json
+{
+    "input": {
+        "sepal_length": 5.1,
+        "sepal_width": 3.5,
+        "petal_length": 1.4,
+        "petal_width": 0.2
+    },
+    "output": {
+        "prediction": "Setosa",
+        "confidence": 100.0
+    }
+}
+```
+
+---
+
+# Concepts Explored
+
+## Flask Framework
+
+Flask is a lightweight Python framework used to develop web applications and REST APIs.
+
+---
+
+## REST API
+
+A REST API allows different applications to communicate using HTTP requests such as GET, POST, PUT, and DELETE.
+
+---
+
+## JSON
+
+JSON (JavaScript Object Notation) is a lightweight data format used for exchanging information between clients and servers.
+
+---
+
+## Machine Learning Deployment
+
+A trained machine learning model can be integrated into a web application so that predictions are generated in real time through API requests.
+
+---
+
+## HTTP Methods
+
+* GET – Retrieve information
+* POST – Send data for prediction
+* PUT – Update existing data
+* DELETE – Remove existing data
+
+---
+
+# Advantages of Flask API
+
+* Lightweight and easy to develop
+* Fast deployment of machine learning models
+* Easy integration with web and mobile applications
+* Supports RESTful architecture
+* Suitable for rapid prototyping
+
+---
+
+# Applications
+
+* AI-powered Web Applications
+* Healthcare Prediction Systems
+* Recommendation Systems
+* Fraud Detection APIs
+* Chatbots
+* Mobile Applications
+* Cloud-based Machine Learning Services
+
+---
+
+# Learning Outcomes
+
+Through this task, the following concepts were learned:
+
+* Flask Web Framework
+* REST API Development
+* Machine Learning Model Deployment
+* JSON Request and Response Handling
+* API Endpoint Development
+* Random Forest Classification
+* HTTP Methods
+* API Testing Using Postman
+* Real-Time Prediction Services
+
+---
+
+# Conclusion
+
+The Flask REST API for the Iris dataset was successfully implemented and tested. The project demonstrated how a trained machine learning model can be deployed as a web service capable of receiving input data, processing predictions, and returning results in JSON format. This task provided valuable practical experience in machine learning deployment, RESTful API development, and backend integration using the Flask framework.
+
+---
+
+**End of Day 15 Documentation**
